@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>homepage</title>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.1/socket.io.js" integrity="sha512-Z6C1p1NIexPj5MsVUunW4pg7uMX6/TT3CUVldmjXx2kpip1eZcrAnxIusDxyFIikyM9A61zOVNgvLr/TGudOQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+     <style>
+        h1 {
+            color:  wheat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        input {
+            display: flexbox;
+            align-items: center;
+            justify-content:center;
+            border-radius: 21%;
+            font-size: medium;
+            border: 2rem;
+            color: aqua;
+        }
+        button {
+            border-radius: 5rem;
+        }
+        body {
+           
+           background-color: darkorange;
+        }
+        script {
+            color: aqua;
+        }
+        
+     </style>
+
+</head>
+<body> 
+    <div class="corpo">
+    <h1> Blog-Otaku</h1>
+   <div id="lista_mensagens">
+    </div>
+      <input type="text"  id="usuario" placeholder="Usuario" required>
+      <input type="text"  id="mensagen" placeholder="Mensagens" required>
+   
+      <button id="botao">Enviar</button>
+
+      <script type="text/javascript">
+         $(document).ready(function(){
+
+            var socket = io("localhost:5000");
+            socket.on("connect", function(){
+                console.log("usuario se conectou");
+            });
+
+             
+            socket.on("message", function(data) {
+                 console.log("disparou uma mensagem");
+                 $("#lista_mensagens").append($("<p>").text(data));
+            });
+
+             $("#botao").on("click", function() {
+                console.log("clicou no botao");
+                  socket.send($("#usuario").val() + ":" + $("#mensagen").val());
+                  $("#usuario").val("");  
+                  $("#mensagen").val("");
+
+             });
+        });
+      </script>  
+    </div>  
+</body>
+</html>
